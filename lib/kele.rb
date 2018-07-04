@@ -1,9 +1,11 @@
 require "httparty"
+require 'roadmap'
 require 'json'
 
 class Kele
   
   include HTTParty
+  include Roadmap
   base_uri "https://www.bloc.io/api/v1/"
 
    def initialize(email, password)
@@ -18,8 +20,7 @@ class Kele
    end
    
    def get_mentor_availability(mentor_id)
-     
-    # mentor id 2370372
+      # mentor id 2370372
       response = self.class.get("/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token})
       @mentor_availability = JSON.parse(response.body)
    end
