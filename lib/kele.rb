@@ -1,4 +1,4 @@
-require "httparty"
+require 'httparty'
 require 'roadmap'
 require 'json'
 
@@ -24,6 +24,21 @@ class Kele
       response = self.class.get("/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token})
       @mentor_availability = JSON.parse(response.body)
    end
+   
+   def get_messages(page = 'all')
+    if page == 'all'
+      response = self.class.get(api_url("message_threads"), headers: { "authorization" => @auth_token})
+    else
+      response = self.class.get(api_url("message_threads?page=#{page}"), headers: { "authorization" => @auth_token })
+    end
+      @messages = JSON.parse(response.body)
+   end
+
+  def create_message(sender_email, recipient_id, stripped_text, subject )
+    response = self.class.post(api_url("messages"), headers: { "authorization" => @auth_token },
+               body: { sender: sender_email, recipient_id: recipient_id, stripped_text: stripped_text, subject: subject })
+    response.success? puts "message sent!"
+  end
     
   private
 

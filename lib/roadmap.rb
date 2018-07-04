@@ -1,7 +1,9 @@
-require 'HTTParty'
+require 'httparty'
 
 module Roadmap
+    
     include HTTParty
+    
     base_uri 'https://www.bloc.io/api/v1'
     
     def get_roadmap(roadmap_id)
